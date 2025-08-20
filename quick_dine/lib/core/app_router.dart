@@ -9,8 +9,6 @@ import '../features/auth/presentation/login_screen.dart';
 import '../features/auth/presentation/signup_screen.dart';
 import '../features/auth/presentation/forgot_password_screen.dart';
 import '../features/owner/presentation/owner_dashboard_screen.dart';
-import '../features/owner/presentation/table_schedule_management_screen.dart';
-import '../features/owner/presentation/menu_management_screen.dart';
 
 class AppRouter {
   static final GoRouter router = GoRouter(
@@ -43,6 +41,10 @@ class AppRouter {
       GoRoute(
         path: '/notifications',
         builder: (context, state) => const NotificationsScreen(),
+      ),
+      GoRoute(
+        path: '/admin-dashboard',
+        builder: (context, state) => const AdminDashboardScreen(),
       ),
       GoRoute(
         path: '/profile',

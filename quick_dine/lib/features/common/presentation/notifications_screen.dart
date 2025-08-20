@@ -9,8 +9,10 @@ class NotificationsScreen extends StatefulWidget {
 }
 
 class _NotificationsScreenState extends State<NotificationsScreen> {
-  // Mock notifications data
+
   final List<Map<String, dynamic>> notifications = [
+    // Commented out for admin - showing empty state instead
+    /*
     {
       'id': '1',
       'title': 'New Reservation',
@@ -71,6 +73,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       'icon': Icons.person_outline,
       'color': Color(0xFF0C1B2A),
     },
+    */ // This is just to be able to show how it looks when there are no notifications.
   ];
 
   @override
@@ -281,25 +284,33 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.notifications_none_outlined,
-            size: 64,
-            color: accent.withOpacity(0.5),
+          Container(
+            width: 80,
+            height: 80,
+            decoration: BoxDecoration(
+              color: accent.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(40),
+            ),
+            child: Icon(
+              Icons.check_circle_outline,
+              size: 40,
+              color: accent,
+            ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 24),
           const Text(
-            'No notifications yet',
+            'All caught up!',
             style: TextStyle(
-              fontSize: 18,
+              fontSize: 20,
               fontWeight: FontWeight.w600,
               color: primary,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
           Text(
-            'When you have new reservations, reviews, or updates, they\'ll appear here.',
+            'You don\'t have any notifications right now.',
             style: TextStyle(
-              fontSize: 14,
+              fontSize: 16,
               color: Colors.grey[600],
             ),
             textAlign: TextAlign.center,
