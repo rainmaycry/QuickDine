@@ -137,7 +137,7 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen>
                     IconButton(
                       icon: const Icon(Icons.person_outline, size: 20),
                       color: primary,
-                      onPressed: () {},
+                      onPressed: () => context.push('/profile'),
                     ),
                   ],
                 ),
@@ -289,7 +289,7 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen>
               Text(
                 title,
                 style: const TextStyle(
-                  fontSize: 12,
+                  fontSize: 11,
                   color: Colors.black54,
                 ),
               ),
@@ -301,7 +301,7 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen>
           Text(
             value,
             style: TextStyle(
-              fontSize: 20,
+              fontSize: 19,
               fontWeight: FontWeight.bold,
               color: color == const Color(0xFFD4AF6A) ? const Color(0xFF0C1B2A) : color,
             ),
@@ -312,27 +312,38 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen>
   }
 
   Widget _buildActionCard(String title, IconData icon, Color color) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: color.withOpacity(0.2)),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, color: color, size: 24),
-          const SizedBox(height: 8),
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              color: Color(0xFF0C1B2A),
+    return InkWell(
+      onTap: () {
+        if (title == "Tables") {
+          context.push('/table-management');
+        } else if (title == "Menu") {
+          context.push('/menu-management');
+        }
+        // Add other navigation logic here for other cards
+      },
+      borderRadius: BorderRadius.circular(8),
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: color.withOpacity(0.2)),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: color, size: 24),
+            const SizedBox(height: 8),
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                color: Color(0xFF0C1B2A),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -417,103 +428,80 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen>
       child: Column(
         children: [
           // Header row
-          Row(
-            children: [
-              // Avatar
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: accent.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Center(
-                  child: Text(
-                    getInitials(reservation['customerName']),
-                    style: TextStyle(
-                      color: accent,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
+          IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Avatar
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: accent.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Center(
+                    child: Text(
+                      getInitials(reservation['customerName']),
+                      style: TextStyle(
+                        color: accent,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(width: 12),
-              // Name and details
-              Expanded(
-                flex: 2,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      reservation['customerName'],
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: primary,
+                const SizedBox(width: 12),
+                // Name and details
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        reservation['customerName'],
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: primary,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        '${reservation['time']} • ${reservation['guests']} guests',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey[600],
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 8),
+                // Status
+                Flexible(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: getStatusColor(reservation['status']).withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      reservation['status'],
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: getStatusColor(reservation['status']),
+                        fontWeight: FontWeight.w500,
                       ),
                       overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
                     ),
-                    const SizedBox(height: 4),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(Icons.access_time, size: 14, color: Colors.grey[600]),
-                            const SizedBox(width: 4),
-                            Flexible(
-                              child: Text(
-                                reservation['time'],
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.grey[600],
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 2),
-                        Row(
-                          children: [
-                            Icon(Icons.people_outline, size: 14, color: Colors.grey[600]),
-                            const SizedBox(width: 4),
-                            Flexible(
-                              child: Text(
-                                '${reservation['guests']} guests',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.grey[600],
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              // Status
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: getStatusColor(reservation['status']).withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  reservation['status'],
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: getStatusColor(reservation['status']),
-                    fontWeight: FontWeight.w500,
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           
           const SizedBox(height: 12),
