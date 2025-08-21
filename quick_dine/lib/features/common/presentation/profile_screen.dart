@@ -47,6 +47,13 @@ class _ProfileScreenState extends State<ProfileScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    // Don't call _loadUserData here - wait for didChangeDependencies
+  }
+  
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Now context is fully available, safe to access inherited widgets
     _loadUserData();
   }
   
@@ -69,18 +76,23 @@ class _ProfileScreenState extends State<ProfileScreen>
     // In a real app, this would come from your authentication system
     // For demo purposes, we'll use route-based detection
     
-    // Get the current route to determine user type
-    final String? currentRoute = GoRouter.of(context).routerDelegate.currentConfiguration.uri.toString();
-    
-    // Simple heuristic based on navigation context
-    if (currentRoute != null) {
-      if (currentRoute.contains('admin') || 
-          ModalRoute.of(context)?.settings.name?.contains('admin') == true) {
-        return 'admin';
-      } else if (currentRoute.contains('owner') || 
-                 ModalRoute.of(context)?.settings.name?.contains('owner') == true) {
-        return 'owner';
+    try {
+      // Get the current route to determine user type
+      final String? currentRoute = GoRouter.of(context).routerDelegate.currentConfiguration.uri.toString();
+      
+      // Simple heuristic based on navigation context
+      if (currentRoute != null) {
+        if (currentRoute.contains('admin') || 
+            ModalRoute.of(context)?.settings.name?.contains('admin') == true) {
+          return 'admin';
+        } else if (currentRoute.contains('owner') || 
+                   ModalRoute.of(context)?.settings.name?.contains('owner') == true) {
+          return 'owner';
+        }
       }
+    } catch (e) {
+      // If context access fails, fall back to stored role
+      print('Error detecting user role from context: $e');
     }
     
     // You can also add a method to switch roles for testing
