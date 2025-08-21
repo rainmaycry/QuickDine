@@ -9,72 +9,103 @@ class NotificationsScreen extends StatefulWidget {
 }
 
 class _NotificationsScreenState extends State<NotificationsScreen> {
+  late List<Map<String, dynamic>> notifications;
+  String _userRole = 'owner'; // Default to owner
 
-  final List<Map<String, dynamic>> notifications = [
-    // Commented out for admin - showing empty state instead
-    /*
-    {
-      'id': '1',
-      'title': 'New Reservation',
-      'message': 'John Smith booked a table for 2 at 7:00 PM today',
-      'type': 'reservation',
-      'time': '2 minutes ago',
-      'isRead': false,
-      'icon': Icons.calendar_today_outlined,
-      'color': Color(0xFFD4AF6A),
-    },
-    {
-      'id': '2',
-      'title': 'Reservation Cancelled',
-      'message': 'Sarah Johnson cancelled her reservation for tonight',
-      'type': 'cancellation',
-      'time': '15 minutes ago',
-      'isRead': false,
-      'icon': Icons.cancel_outlined,
-      'color': Colors.red,
-    },
-    {
-      'id': '3',
-      'title': 'New Review',
-      'message': 'Mike Davis left a 5-star review: "Amazing food and service!"',
-      'type': 'review',
-      'time': '1 hour ago',
-      'isRead': true,
-      'icon': Icons.star_outline,
-      'color': Colors.orange,
-    },
-    {
-      'id': '4',
-      'title': 'Table Ready',
-      'message': 'Table 5 is now available for the next reservation',
-      'type': 'table',
-      'time': '2 hours ago',
-      'isRead': true,
-      'icon': Icons.table_restaurant_outlined,
-      'color': Colors.green,
-    },
-    {
-      'id': '5',
-      'title': 'Payment Received',
-      'message': 'Payment of \$85.50 received for order #1234',
-      'type': 'payment',
-      'time': '3 hours ago',
-      'isRead': true,
-      'icon': Icons.payment_outlined,
-      'color': Colors.blue,
-    },
-    {
-      'id': '6',
-      'title': 'Staff Update',
-      'message': 'Emily Wilson clocked in for the evening shift',
-      'type': 'staff',
-      'time': '4 hours ago',
-      'isRead': true,
-      'icon': Icons.person_outline,
-      'color': Color(0xFF0C1B2A),
-    },
-    */ // This is just to be able to show how it looks when there are no notifications.
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _loadNotifications();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _detectUserRole();
+    _loadNotifications();
+  }
+
+  void _detectUserRole() {
+    try {
+      final String? currentRoute = GoRouter.of(context).routerDelegate.currentConfiguration.uri.toString();
+      if (currentRoute != null) {
+        if (currentRoute.contains('admin')) {
+          _userRole = 'admin';
+        } else if (currentRoute.contains('owner')) {
+          _userRole = 'owner';
+        } else {
+          _userRole = 'customer';
+        }
+      }
+    } catch (e) {
+      _userRole = 'owner'; // Default fallback
+    }
+  }
+
+  void _loadNotifications() {
+    if (_userRole == 'admin') {
+      // Admin users see empty state
+      notifications = [];
+    } else if (_userRole == 'owner') {
+      // Owner users see restaurant notifications
+      notifications = [
+        {
+          'id': '1',
+          'title': 'New Reservation',
+          'message': 'Sarah Johnson booked a table for 4 guests tonight at 6:30 PM.',
+          'type': 'reservation',
+          'time': '30 minutes ago',
+          'isRead': false,
+          'icon': Icons.calendar_today_outlined,
+          'color': const Color(0xFFD4AF6A),
+        },
+        {
+          'id': '2',
+          'title': 'Reservation Cancelled',
+          'message': 'Mike Davis cancelled his reservation for 3 guests at 7:00 PM.',
+          'type': 'reservation',
+          'time': '1 hour ago',
+          'isRead': false,
+          'icon': Icons.cancel_outlined,
+          'color': Colors.red,
+        },
+        {
+          'id': '3',
+          'title': 'New Review',
+          'message': 'You received a 5-star review from Emily Wilson. "Amazing food and service!"',
+          'type': 'review',
+          'time': '3 hours ago',
+          'isRead': true,
+          'icon': Icons.star_outline,
+          'color': Colors.orange,
+        },
+        {
+          'id': '4',
+          'title': 'High Demand Alert',
+          'message': 'You have 15 pending reservations for this weekend. Review them now.',
+          'type': 'general',
+          'time': '6 hours ago',
+          'isRead': true,
+          'icon': Icons.info_outline,
+          'color': const Color(0xFF0C1B2A),
+        },
+      ];
+    } else {
+      // Customer notifications
+      notifications = [
+        {
+          'id': '1',
+          'title': 'Reservation Confirmed',
+          'message': 'Your reservation for 2 guests at 7:00 PM tonight has been confirmed.',
+          'type': 'reservation',
+          'time': '1 hour ago',
+          'isRead': false,
+          'icon': Icons.check_circle_outline,
+          'color': Colors.green,
+        },
+      ];
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
