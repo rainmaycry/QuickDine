@@ -11,6 +11,8 @@ import '../features/auth/presentation/login_screen.dart';
 import '../features/auth/presentation/signup_screen.dart';
 import '../features/auth/presentation/forgot_password_screen.dart';
 import '../features/owner/presentation/owner_dashboard_screen.dart';
+import '../features/owner/presentation/reports_statistics_screen.dart';
+import '../features/owner/presentation/restaurant_setup_screen.dart';
 import '../features/admin/presentation/admin_dashboard_screen.dart';
 
 class AppRouter {
@@ -64,6 +66,14 @@ class AppRouter {
       GoRoute(
         path: '/menu-management',
         builder: (context, state) => const MenuManagementScreen(),
+      ),
+      GoRoute(
+        path: '/reports-statistics',
+        builder: (context, state) => const ReportsStatisticsScreen(),
+      ),
+      GoRoute(
+        path: '/restaurant-setup',
+        builder: (context, state) => const RestaurantSetupScreen(),
       ),
     ],
   );

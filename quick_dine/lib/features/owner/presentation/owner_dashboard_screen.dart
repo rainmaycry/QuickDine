@@ -215,8 +215,8 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen>
                           accent,
                         ),
                         _buildActionCard(
-                          "Settings",
-                          Icons.settings_outlined,
+                          "Set Up",
+                          Icons.edit_outlined,
                           accent,
                         ),
                       ],
@@ -318,8 +318,11 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen>
           context.push('/table-management');
         } else if (title == "Menu") {
           context.push('/menu-management');
+        } else if (title == "Reports") {
+          context.push('/reports-statistics');
+        } else if (title == "Set Up") {
+          context.push('/restaurant-setup');
         }
-        // Add other navigation logic here for other cards
       },
       borderRadius: BorderRadius.circular(8),
       child: Container(
