@@ -13,10 +13,29 @@ class _ProfileScreenState extends State<ProfileScreen>
   late TabController _tabController;
   bool _isEditing = false;
   
-  // Mock user data - in real app this would come from state management
-  String _name = 'Restaurant Owner';
-  String _email = 'owner@test.com';
-  String _role = 'owner'; // owner, customer, admin
+  // Dynamic user data based on role - in real app this would come from state management
+  String _name = '';
+  String _email = '';
+  String _role = '';
+  
+  // Mock user data for different roles
+  final Map<String, Map<String, String>> _userData = {
+    'admin': {
+      'name': 'System Administrator',
+      'email': 'admin@quickdine.com',
+      'role': 'admin',
+    },
+    'owner': {
+      'name': 'Restaurant Owner',
+      'email': 'owner@test.com',
+      'role': 'owner',
+    },
+    'customer': {
+      'name': 'John Customer',
+      'email': 'customer@test.com',
+      'role': 'customer',
+    },
+  };
   
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
@@ -28,8 +47,52 @@ class _ProfileScreenState extends State<ProfileScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    _loadUserData();
+  }
+  
+  void _loadUserData() {
+    // In a real app, this would detect the current user's role from authentication/state management
+    // For now, we'll detect based on the current route or context
+    // Default to admin when coming from admin dashboard
+    String currentRole = _detectUserRole();
+    
+    final userData = _userData[currentRole] ?? _userData['owner']!;
+    _name = userData['name']!;
+    _email = userData['email']!;
+    _role = userData['role']!;
+    
     _nameController.text = _name;
     _emailController.text = _email;
+  }
+  
+  String _detectUserRole() {
+    // In a real app, this would come from your authentication system
+    // For demo purposes, we'll use route-based detection
+    
+    // Get the current route to determine user type
+    final String? currentRoute = GoRouter.of(context).routerDelegate.currentConfiguration.uri.toString();
+    
+    // Simple heuristic based on navigation context
+    if (currentRoute != null) {
+      if (currentRoute.contains('admin') || 
+          ModalRoute.of(context)?.settings.name?.contains('admin') == true) {
+        return 'admin';
+      } else if (currentRoute.contains('owner') || 
+                 ModalRoute.of(context)?.settings.name?.contains('owner') == true) {
+        return 'owner';
+      }
+    }
+    
+    // You can also add a method to switch roles for testing
+    // For now, default based on a simple preference or last used role
+    return _getStoredUserRole();
+  }
+  
+  String _getStoredUserRole() {
+    // In a real app, this would get the role from secure storage or state management
+    // For demo, you can manually change this to test different roles:
+    // 'admin', 'owner', or 'customer'
+    return 'admin'; // Change this to test different roles
   }
 
   @override

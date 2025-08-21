@@ -203,7 +203,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                     iconSize: 20,
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () => context.push('/profile'),
                     icon: const Icon(Icons.person_outline),
                     iconSize: 20,
                   ),
