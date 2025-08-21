@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
+import 'forms/basic_info_form_screen.dart';
+import 'forms/photos_form_screen.dart';
+import 'forms/hours_form_screen.dart';
+import 'forms/menu_form_screen.dart';
+import 'forms/tables_form_screen.dart';
+import 'forms/policies_form_screen.dart';
 
 class RestaurantSetupScreen extends StatefulWidget {
   const RestaurantSetupScreen({super.key});
@@ -11,61 +17,163 @@ class RestaurantSetupScreen extends StatefulWidget {
 class _RestaurantSetupScreenState extends State<RestaurantSetupScreen> {
   bool _isPublishing = false;
 
-  // Mock setup steps (replace with real data wiring later)
-  final List<Map<String, dynamic>> _setupSteps = [
+  // Restaurant data that will be collected from forms
+  final Map<String, dynamic> _restaurantData = {
+    'basicInfo': {
+      'name': '',
+      'cuisine': '',
+      'priceRange': '',
+      'address': '',
+      'phone': '',
+      'website': '',
+      'description': '',
+      'features': <String>[],
+    },
+    'photos': <String>[],
+    'hours': {
+      'monday': {'open': '', 'close': '', 'closed': false},
+      'tuesday': {'open': '', 'close': '', 'closed': false},
+      'wednesday': {'open': '', 'close': '', 'closed': false},
+      'thursday': {'open': '', 'close': '', 'closed': false},
+      'friday': {'open': '', 'close': '', 'closed': false},
+      'saturday': {'open': '', 'close': '', 'closed': false},
+      'sunday': {'open': '', 'close': '', 'closed': false},
+    },
+    'menu': {
+      'categories': <Map<String, dynamic>>[],
+    },
+    'tables': {
+      'totalTables': 0,
+      'tableLayouts': <Map<String, dynamic>>[],
+    },
+    'policies': {
+      'cancellationPolicy': '',
+      'gracePeriod': 15,
+      'maxPartySize': 8,
+      'specialRequests': '',
+    },
+  };
+
+  // Setup steps with completion tracking
+  List<Map<String, dynamic>> get _setupSteps => [
     {
       'id': 'basic-info',
       'title': 'Basic Information',
       'description': 'Name, location, and contact details',
-      'completed': true,
+      'completed': _isBasicInfoComplete(),
       'icon': Icons.store,
     },
     {
       'id': 'photos',
       'title': 'Restaurant Photos',
       'description': 'Upload at least 3 high-quality photos',
-      'completed': true,
+      'completed': _isPhotosComplete(),
       'icon': Icons.camera_alt,
     },
     {
       'id': 'hours',
       'title': 'Operating Hours',
       'description': 'Configure weekly and special hours',
-      'completed': true,
+      'completed': _isHoursComplete(),
       'icon': Icons.access_time,
     },
     {
       'id': 'menu',
       'title': 'Menu Management',
       'description': 'Add categories and items',
-      'completed': false,
+      'completed': _isMenuComplete(),
       'icon': Icons.restaurant_menu,
     },
     {
       'id': 'tables',
       'title': 'Table & Schedule',
       'description': 'Layout and availability',
-      'completed': true,
+      'completed': _isTablesComplete(),
       'icon': Icons.event_seat,
     },
     {
       'id': 'policies',
       'title': 'Restaurant Policies',
       'description': 'Cancellation and booking policies',
-      'completed': true,
+      'completed': _isPoliciesComplete(),
       'icon': Icons.description,
     },
   ];
 
-  // Mock summary data
-  final Map<String, String> _summary = {
-    'name': 'Casa Bella',
-    'cuisine': 'Italian',
-    'price': '\$\$ - Moderate',
-    'address': '123 Main Street, Springfield',
-    'phone': '(555) 123-4567',
-    'hours': 'Mon-Sun 11:00 AM - 10:00 PM',
+  // Dynamic summary data based on form inputs
+  Map<String, String> get _summary => {
+    'name': _restaurantData['basicInfo']['name']?.isEmpty == true 
+        ? 'Restaurant Name' 
+        : _restaurantData['basicInfo']['name'],
+    'cuisine': _restaurantData['basicInfo']['cuisine']?.isEmpty == true 
+        ? 'Cuisine Type' 
+        : _restaurantData['basicInfo']['cuisine'],
+    'price': _restaurantData['basicInfo']['priceRange']?.isEmpty == true 
+        ? 'Price Range' 
+        : _restaurantData['basicInfo']['priceRange'],
+    'address': _restaurantData['basicInfo']['address']?.isEmpty == true 
+        ? 'Restaurant Address' 
+        : _restaurantData['basicInfo']['address'],
+    'phone': _restaurantData['basicInfo']['phone']?.isEmpty == true 
+        ? 'Phone Number' 
+        : _restaurantData['basicInfo']['phone'],
+    'hours': _getFormattedHours(),
   };
+
+  // Completion check methods
+  bool _isBasicInfoComplete() {
+    final basic = _restaurantData['basicInfo'];
+    return basic['name']?.isNotEmpty == true &&
+           basic['cuisine']?.isNotEmpty == true &&
+           basic['priceRange']?.isNotEmpty == true &&
+           basic['address']?.isNotEmpty == true &&
+           basic['phone']?.isNotEmpty == true;
+  }
+
+  bool _isPhotosComplete() {
+    return (_restaurantData['photos'] as List).length >= 3;
+  }
+
+  bool _isHoursComplete() {
+    final hours = _restaurantData['hours'] as Map<String, dynamic>;
+    return hours.values.any((day) => 
+        day['closed'] == true || 
+        (day['open']?.isNotEmpty == true && day['close']?.isNotEmpty == true)
+    );
+  }
+
+  bool _isMenuComplete() {
+    final categories = _restaurantData['menu']['categories'] as List;
+    return categories.isNotEmpty && 
+           categories.any((cat) => (cat['items'] as List).isNotEmpty);
+  }
+
+  bool _isTablesComplete() {
+    return _restaurantData['tables']['totalTables'] > 0;
+  }
+
+  bool _isPoliciesComplete() {
+    final policies = _restaurantData['policies'];
+    return policies['cancellationPolicy']?.isNotEmpty == true;
+  }
+
+  String _getFormattedHours() {
+    final hours = _restaurantData['hours'] as Map<String, dynamic>;
+    final openDays = hours.entries
+        .where((entry) => entry.value['closed'] != true)
+        .toList();
+    
+    if (openDays.isEmpty) return 'Hours not set';
+    
+    final firstDay = openDays.first.value;
+    if (openDays.every((day) => 
+        day.value['open'] == firstDay['open'] && 
+        day.value['close'] == firstDay['close'])) {
+      return 'Daily ${firstDay['open']} - ${firstDay['close']}';
+    }
+    
+    return 'Varies by day';
+  }
 
   int get _completedSteps => _setupSteps.where((s) => s['completed'] == true).length;
   int get _totalSteps => _setupSteps.length;
@@ -83,6 +191,87 @@ class _RestaurantSetupScreenState extends State<RestaurantSetupScreen> {
       const SnackBar(content: Text('Restaurant published successfully')),
     );
     Navigator.of(context).pop();
+  }
+
+  void _navigateToStepForm(String stepId) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => _buildStepFormScreen(stepId),
+      ),
+    ).then((result) {
+      if (result == true) {
+        setState(() {}); // Refresh the UI to show updated completion status
+      }
+    });
+  }
+
+  Widget _buildStepFormScreen(String stepId) {
+    switch (stepId) {
+      case 'basic-info':
+        return BasicInfoFormScreen(
+          initialData: _restaurantData['basicInfo'],
+          onSave: (data) {
+            setState(() {
+              _restaurantData['basicInfo'] = data;
+            });
+            Navigator.of(context).pop(true);
+          },
+        );
+      case 'photos':
+        return PhotosFormScreen(
+          initialPhotos: List<String>.from(_restaurantData['photos']),
+          onSave: (photos) {
+            setState(() {
+              _restaurantData['photos'] = photos;
+            });
+            Navigator.of(context).pop(true);
+          },
+        );
+      case 'hours':
+        return HoursFormScreen(
+          initialHours: Map<String, dynamic>.from(_restaurantData['hours']),
+          onSave: (hours) {
+            setState(() {
+              _restaurantData['hours'] = hours;
+            });
+            Navigator.of(context).pop(true);
+          },
+        );
+      case 'menu':
+        return MenuFormScreen(
+          initialMenu: Map<String, dynamic>.from(_restaurantData['menu']),
+          onSave: (menu) {
+            setState(() {
+              _restaurantData['menu'] = menu;
+            });
+            Navigator.of(context).pop(true);
+          },
+        );
+      case 'tables':
+        return TablesFormScreen(
+          initialTables: Map<String, dynamic>.from(_restaurantData['tables']),
+          onSave: (tables) {
+            setState(() {
+              _restaurantData['tables'] = tables;
+            });
+            Navigator.of(context).pop(true);
+          },
+        );
+      case 'policies':
+        return PoliciesFormScreen(
+          initialPolicies: Map<String, dynamic>.from(_restaurantData['policies']),
+          onSave: (policies) {
+            setState(() {
+              _restaurantData['policies'] = policies;
+            });
+            Navigator.of(context).pop(true);
+          },
+        );
+      default:
+        return const Scaffold(
+          body: Center(child: Text('Form not implemented yet')),
+        );
+    }
   }
 
   // Visual previews per step (non-functional, design-focused)
@@ -543,9 +732,7 @@ class _RestaurantSetupScreenState extends State<RestaurantSetupScreen> {
             ],
           ),
           trailing: TextButton(
-            onPressed: () {
-              // Navigate to edit/complete specific section later
-            },
+            onPressed: () => _navigateToStepForm(step['id'] as String),
             style: TextButton.styleFrom(
               foregroundColor: completed ? Colors.grey[700] : AppColors.accent,
             ),
@@ -770,25 +957,35 @@ class _RestaurantSetupScreenState extends State<RestaurantSetupScreen> {
               style: TextStyle(color: Colors.grey[700], fontSize: 13),
             ),
             const SizedBox(height: 12),
-            Row(
+            Column(
               children: [
-                OutlinedButton.icon(
-                  onPressed: () {
-                    // TODO: implement support chat or email
-                  },
-                  icon: const Icon(Icons.chat_bubble_outline, size: 18, color: AppColors.accent),
-                  label: const Text('Contact Support'),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: AppColors.accent,
-                    side: const BorderSide(color: AppColors.accent),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: () {
+                      // TODO: implement support chat or email
+                    },
+                    icon: const Icon(Icons.chat_bubble_outline, size: 16, color: AppColors.accent),
+                    label: const Text('Contact Support'),
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: AppColors.accent,
+                      side: const BorderSide(color: AppColors.accent),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                    ),
                   ),
                 ),
-                const SizedBox(width: 12),
-                TextButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(Icons.help_outline, size: 18, color: AppColors.primary),
-                  label: const Text('View Documentation'),
-                  style: TextButton.styleFrom(foregroundColor: AppColors.primary),
+                const SizedBox(height: 8),
+                SizedBox(
+                  width: double.infinity,
+                  child: TextButton.icon(
+                    onPressed: () {},
+                    icon: const Icon(Icons.help_outline, size: 16, color: AppColors.primary),
+                    label: const Text('View Documentation'),
+                    style: TextButton.styleFrom(
+                      foregroundColor: AppColors.primary,
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                    ),
+                  ),
                 ),
               ],
             ),
