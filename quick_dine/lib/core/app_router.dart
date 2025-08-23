@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quick_dine/features/owner/presentation/menu_management_screen.dart';
 import 'package:quick_dine/features/owner/presentation/table_schedule_management_screen.dart';
@@ -15,6 +14,8 @@ import '../features/owner/presentation/reports_statistics_screen.dart';
 import '../features/owner/presentation/restaurant_setup_screen.dart';
 import '../features/admin/presentation/admin_dashboard_screen.dart';
 import '../features/customer/presentation/customer_dashboard_screen.dart';
+import '../features/customer/presentation/my_reservations_screen.dart';
+import '../features/customer/presentation/my_favorites_screen.dart';
 
 class AppRouter {
   static final GoRouter router = GoRouter(
@@ -79,6 +80,14 @@ class AppRouter {
       GoRoute(
         path: '/customer-dashboard',
         builder: (context, state) => const CustomerDashboardScreen(),
+      ),
+      GoRoute(
+        path: '/my-reservations',
+        builder: (context, state) => const MyReservationsScreen(),
+      ),
+      GoRoute(
+        path: '/my-favorites',
+        builder: (context, state) => const MyFavoritesScreen(),
       ),
       GoRoute(
         path: '/home',

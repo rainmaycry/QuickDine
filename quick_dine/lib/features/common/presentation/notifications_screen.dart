@@ -10,7 +10,7 @@ class NotificationsScreen extends StatefulWidget {
 
 class _NotificationsScreenState extends State<NotificationsScreen> {
   late List<Map<String, dynamic>> notifications;
-  String _userRole = 'owner'; // Default to owner
+  String _userRole = 'customer'; // Default to customer
 
   @override
   void initState() {
@@ -27,18 +27,21 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
   void _detectUserRole() {
     try {
-      final String? currentRoute = GoRouter.of(context).routerDelegate.currentConfiguration.uri.toString();
+      final String currentRoute = GoRouter.of(context).routerDelegate.currentConfiguration.uri.toString();
       if (currentRoute != null) {
         if (currentRoute.contains('admin')) {
           _userRole = 'admin';
         } else if (currentRoute.contains('owner')) {
           _userRole = 'owner';
+        } else if (currentRoute.contains('customer') || 
+                   ModalRoute.of(context)?.settings.name?.contains('customer') == true) {
+          _userRole = 'customer';
         } else {
           _userRole = 'customer';
         }
       }
     } catch (e) {
-      _userRole = 'owner'; // Default fallback
+      _userRole = 'customer'; // Default fallback
     }
   }
 

@@ -236,7 +236,7 @@ class _TableScheduleManagementScreenState extends State<TableScheduleManagementS
           const SizedBox(height: 16),
 
           // Tables List
-          ...tables.map((table) => _buildTableCard(table)).toList(),
+          ...tables.map((table) => _buildTableCard(table)),
         ],
       ),
     );
@@ -408,7 +408,7 @@ class _TableScheduleManagementScreenState extends State<TableScheduleManagementS
                 labelText: 'Number of Seats *',
                 border: OutlineInputBorder(),
               ),
-              value: newTable['seats'],
+              initialValue: newTable['seats'],
               items: [2, 4, 6, 8, 10, 12].map((seats) {
                 return DropdownMenuItem(
                   value: seats,
@@ -427,7 +427,7 @@ class _TableScheduleManagementScreenState extends State<TableScheduleManagementS
                 labelText: 'Location *',
                 border: OutlineInputBorder(),
               ),
-              value: newTable['location'].isEmpty ? null : newTable['location'],
+              initialValue: newTable['location'].isEmpty ? null : newTable['location'],
               items: ['Window', 'Center', 'Bar', 'Patio', 'Private', 'Corner'].map((location) {
                 return DropdownMenuItem(
                   value: location,

@@ -264,7 +264,7 @@ class _MenuManagementScreenState extends State<MenuManagementScreen> {
                           '${category['name']} ($count)',
                           category['icon'],
                         );
-                      }).toList(),
+                      }),
                     ],
                   ),
                 ),
@@ -707,7 +707,7 @@ class _MenuManagementScreenState extends State<MenuManagementScreen> {
                 labelText: 'Category *',
                 border: OutlineInputBorder(),
               ),
-              value: item['category'].isEmpty ? null : item['category'],
+              initialValue: item['category'].isEmpty ? null : item['category'],
               items: categories.map<DropdownMenuItem<String>>((category) {
                 return DropdownMenuItem<String>(
                   value: category['id'],

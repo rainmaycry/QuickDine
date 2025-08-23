@@ -260,33 +260,33 @@ class _TablesFormScreenState extends State<TablesFormScreen> {
                         Expanded(
                           child: OutlinedButton(
                             onPressed: () => _addQuickTables(5, 2),
-                            child: const Text('5 x 2-seat'),
                             style: OutlinedButton.styleFrom(
                               foregroundColor: AppColors.accent,
                               side: const BorderSide(color: AppColors.accent),
                             ),
+                            child: const Text('5 x 2-seat'),
                           ),
                         ),
                         const SizedBox(width: 8),
                         Expanded(
                           child: OutlinedButton(
                             onPressed: () => _addQuickTables(8, 4),
-                            child: const Text('8 x 4-seat'),
                             style: OutlinedButton.styleFrom(
                               foregroundColor: AppColors.accent,
                               side: const BorderSide(color: AppColors.accent),
                             ),
+                            child: const Text('8 x 4-seat'),
                           ),
                         ),
                         const SizedBox(width: 8),
                         Expanded(
                           child: OutlinedButton(
                             onPressed: () => _addQuickTables(3, 6),
-                            child: const Text('3 x 6-seat'),
                             style: OutlinedButton.styleFrom(
                               foregroundColor: AppColors.accent,
                               side: const BorderSide(color: AppColors.accent),
                             ),
+                            child: const Text('3 x 6-seat'),
                           ),
                         ),
                       ],
@@ -567,7 +567,7 @@ class _TablesFormScreenState extends State<TablesFormScreen> {
               ],
             ),
           );
-        }).toList(),
+        }),
       ],
     );
   }

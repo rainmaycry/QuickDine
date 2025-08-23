@@ -683,7 +683,7 @@ class _RestaurantSetupScreenState extends State<RestaurantSetupScreen> {
               ),
             ),
             const SizedBox(height: 12),
-            ..._setupSteps.map(_buildChecklistItem).toList(),
+            ..._setupSteps.map(_buildChecklistItem),
           ],
         ),
       ),

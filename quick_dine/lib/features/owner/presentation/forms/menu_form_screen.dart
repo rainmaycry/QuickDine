@@ -248,7 +248,7 @@ class _MenuFormScreenState extends State<MenuFormScreen> {
                 final index = entry.key;
                 final category = entry.value;
                 return _buildCategoryCard(category, index);
-              }).toList(),
+              }),
             const SizedBox(height: 32),
             SizedBox(
               width: double.infinity,
@@ -403,7 +403,7 @@ class _MenuFormScreenState extends State<MenuFormScreen> {
                 final itemIndex = entry.key;
                 final item = entry.value;
                 return _buildMenuItem(item, categoryIndex, itemIndex);
-              }).toList(),
+              }),
             const SizedBox(height: 12),
             SizedBox(
               width: double.infinity,

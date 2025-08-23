@@ -135,7 +135,7 @@ class _PoliciesFormScreenState extends State<PoliciesFormScreen> {
                       activeColor: AppColors.accent,
                       contentPadding: EdgeInsets.zero,
                     );
-                  }).toList(),
+                  }),
                   const SizedBox(height: 12),
                   const Text(
                     'Or write a custom policy:',

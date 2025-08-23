@@ -294,7 +294,7 @@ class _HoursFormScreenState extends State<HoursFormScreen> {
                           }
                         });
                       },
-                      activeColor: AppColors.accent,
+                      activeThumbColor: AppColors.accent,
                     ),
                     const SizedBox(width: 8),
                     Text(
