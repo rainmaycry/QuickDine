@@ -23,14 +23,14 @@ class _LoginScreenState extends State<LoginScreen> {
     // Mock login process - let user choose their role based on email
     String role = 'customer';
     String name = 'John Doe';
-    String route = '/home'; // Default route for customer
+    String route = '/customer-dashboard'; // Updated to use customer dashboard
     
     final email = _emailController.text.toLowerCase();
     
     if (email.contains('admin')) {
       role = 'admin';
       name = 'System Administrator';
-      route = '/admin-dashboard'; // TODO: Create admin dashboard
+      route = '/admin-dashboard';
     } else if (email.contains('owner')) {
       role = 'owner';
       name = 'Restaurant Owner';

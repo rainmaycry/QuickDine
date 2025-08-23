@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quick_dine/features/owner/presentation/menu_management_screen.dart';
 import 'package:quick_dine/features/owner/presentation/table_schedule_management_screen.dart';
+import 'package:quick_dine/features/customer/presentation/customer_dashboard_screen.dart';
 import '../features/common/presentation/splash_screen.dart';
 import '../features/common/presentation/welcome_screen.dart';
 import '../features/common/presentation/notifications_screen.dart';
@@ -14,6 +15,7 @@ import '../features/owner/presentation/owner_dashboard_screen.dart';
 import '../features/owner/presentation/reports_statistics_screen.dart';
 import '../features/owner/presentation/restaurant_setup_screen.dart';
 import '../features/admin/presentation/admin_dashboard_screen.dart';
+import '../features/customer/presentation/customer_dashboard_screen.dart';
 
 class AppRouter {
   static final GoRouter router = GoRouter(
@@ -74,6 +76,10 @@ class AppRouter {
       GoRoute(
         path: '/restaurant-setup',
         builder: (context, state) => const RestaurantSetupScreen(),
+      ),
+      GoRoute(
+        path: '/customer-dashboard',
+        builder: (context, state) => const CustomerDashboardScreen(),
       ),
     ],
   );
