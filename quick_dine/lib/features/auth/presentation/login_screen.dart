@@ -21,10 +21,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void handleLogin() {
     // Mock login process - let user choose their role based on email
-    String role = 'customer';
-    String name = 'John Doe';
-    String route = '/customer-dashboard'; // Updated to use customer dashboard
-    
+ // Updated to use customer dashboard
+    String role = '';
+    String name = '';
+    String route = '';
+
+
     final email = _emailController.text.toLowerCase();
     
     if (email.contains('admin')) {
@@ -35,6 +37,10 @@ class _LoginScreenState extends State<LoginScreen> {
       role = 'owner';
       name = 'Restaurant Owner';
       route = '/owner-dashboard';
+    } else if (email.contains('customer')){
+      role = 'customer';
+      name = 'John Doe';
+      route = '/customer-dashboard';
     }
     
     final userData = {

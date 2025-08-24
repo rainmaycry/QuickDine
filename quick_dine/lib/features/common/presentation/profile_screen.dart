@@ -78,7 +78,7 @@ class _ProfileScreenState extends State<ProfileScreen>
     
     try {
       // Get the current route to determine user type
-      final String? currentRoute = GoRouter.of(context).routerDelegate.currentConfiguration.uri.toString();
+      final String currentRoute = GoRouter.of(context).routerDelegate.currentConfiguration.uri.toString();
       
       // Simple heuristic based on navigation context
       if (currentRoute != null) {
@@ -88,6 +88,9 @@ class _ProfileScreenState extends State<ProfileScreen>
         } else if (currentRoute.contains('owner') || 
                    ModalRoute.of(context)?.settings.name?.contains('owner') == true) {
           return 'owner';
+        }else if (currentRoute.contains('customer') || 
+                   ModalRoute.of(context)?.settings.name?.contains('customer') == true) {
+          return 'customer';
         }
       }
     } catch (e) {

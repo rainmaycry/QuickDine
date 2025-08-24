@@ -383,7 +383,7 @@ class _ReportsStatisticsScreenState extends State<ReportsStatisticsScreen>
             ),
           ),
           const SizedBox(height: 16),
-          ...weeklyData.map((day) => _buildWeeklyItem(day)).toList(),
+          ...weeklyData.map((day) => _buildWeeklyItem(day)),
         ],
       ),
     );
@@ -480,7 +480,7 @@ class _ReportsStatisticsScreenState extends State<ReportsStatisticsScreen>
             ),
           ),
           const SizedBox(height: 16),
-          ...timeSlotData.map((slot) => _buildTimeSlotItem(slot)).toList(),
+          ...timeSlotData.map((slot) => _buildTimeSlotItem(slot)),
         ],
       ),
     );
@@ -758,7 +758,7 @@ class _ReportsStatisticsScreenState extends State<ReportsStatisticsScreen>
             ),
           ),
           const SizedBox(height: 16),
-          ...topCustomers.map((customer) => _buildCustomerItem(customer)).toList(),
+          ...topCustomers.map((customer) => _buildCustomerItem(customer)),
         ],
       ),
     );
@@ -852,7 +852,7 @@ class _ReportsStatisticsScreenState extends State<ReportsStatisticsScreen>
             ),
           ),
           const SizedBox(height: 16),
-          ...satisfactionData.map((data) => _buildSatisfactionItem(data)).toList(),
+          ...satisfactionData.map((data) => _buildSatisfactionItem(data)),
         ],
       ),
     );
