@@ -58,43 +58,43 @@ class _RestaurantSetupScreenState extends State<RestaurantSetupScreen> {
   List<Map<String, dynamic>> get _setupSteps => [
     {
       'id': 'basic-info',
-      'title': 'Basic Information',
-      'description': 'Name, location, and contact details',
+      'title': 'Basic Info',
+      'description': 'Name, location, contact',
       'completed': _isBasicInfoComplete(),
       'icon': Icons.store,
     },
     {
       'id': 'photos',
-      'title': 'Restaurant Photos',
-      'description': 'Upload at least 3 high-quality photos',
+      'title': 'Photos',
+      'description': 'Add 3+ photos',
       'completed': _isPhotosComplete(),
       'icon': Icons.camera_alt,
     },
     {
       'id': 'hours',
-      'title': 'Operating Hours',
-      'description': 'Configure weekly and special hours',
+      'title': 'Hours',
+      'description': 'Set operating hours',
       'completed': _isHoursComplete(),
       'icon': Icons.access_time,
     },
     {
       'id': 'menu',
-      'title': 'Menu Management',
-      'description': 'Add categories and items',
+      'title': 'Menu',
+      'description': 'Add food items',
       'completed': _isMenuComplete(),
       'icon': Icons.restaurant_menu,
     },
     {
       'id': 'tables',
-      'title': 'Table & Schedule',
-      'description': 'Layout and availability',
+      'title': 'Tables',
+      'description': 'Setup layout',
       'completed': _isTablesComplete(),
       'icon': Icons.event_seat,
     },
     {
       'id': 'policies',
-      'title': 'Restaurant Policies',
-      'description': 'Cancellation and booking policies',
+      'title': 'Policies',
+      'description': 'Booking rules',
       'completed': _isPoliciesComplete(),
       'icon': Icons.description,
     },
@@ -313,7 +313,7 @@ class _RestaurantSetupScreenState extends State<RestaurantSetupScreen> {
           children: [
             Icon(icon, size: 16, color: AppColors.accent),
             const SizedBox(width: 8),
-            Expanded(child: Text(text, style: TextStyle(color: Colors.grey[800], fontSize: 12))),
+            Expanded(child: Text(text, style: TextStyle(color: Colors.grey[800], fontSize: 11))),
           ],
         ),
       );
@@ -722,7 +722,7 @@ class _RestaurantSetupScreenState extends State<RestaurantSetupScreen> {
                     const SizedBox(height: 4),
                     Text(
                       step['description'] as String,
-                      style: TextStyle(color: Colors.grey[600], fontSize: 12),
+                      style: TextStyle(color: Colors.grey[600], fontSize: 11),
                     ),
                   ],
                 ),
@@ -731,12 +731,15 @@ class _RestaurantSetupScreenState extends State<RestaurantSetupScreen> {
               _buildStatusBadge(completed),
             ],
           ),
-          trailing: TextButton(
-            onPressed: () => _navigateToStepForm(step['id'] as String),
-            style: TextButton.styleFrom(
-              foregroundColor: completed ? Colors.grey[700] : AppColors.accent,
+          trailing: Padding(
+            padding: const EdgeInsets.only(right: 1.0),
+            child: TextButton(
+              onPressed: () => _navigateToStepForm(step['id'] as String),
+              style: TextButton.styleFrom(
+                foregroundColor: completed ? Colors.grey[700] : AppColors.accent,
+              ),
+              child: Text(completed ? 'Edit' : 'Complete'),
             ),
-            child: Text(completed ? 'Edit' : 'Complete'),
           ),
           children: [
             _buildStepPreview(step['id'] as String),
@@ -762,7 +765,7 @@ class _RestaurantSetupScreenState extends State<RestaurantSetupScreen> {
             size: 14,
             color: completed ? Colors.green : Colors.orange,
           ),
-          const SizedBox(width: 4),
+          const SizedBox(width: 6),
           Text(
             completed ? 'Complete' : 'Pending',
             style: TextStyle(
