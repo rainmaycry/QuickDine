@@ -294,7 +294,13 @@ class _HoursFormScreenState extends State<HoursFormScreen> {
                           }
                         });
                       },
-                      activeThumbColor: AppColors.accent,
+                      activeTrackColor: AppColors.accent.withOpacity(0.5),
+                      thumbColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+                        if (states.contains(MaterialState.selected)) {
+                          return AppColors.accent;
+                        }
+                        return Colors.grey[300]!;
+                      }),
                     ),
                     const SizedBox(width: 8),
                     Text(

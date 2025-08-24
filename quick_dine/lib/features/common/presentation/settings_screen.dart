@@ -279,7 +279,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         Switch(
           value: value,
           onChanged: onChanged,
-          activeThumbColor: accent,
+          activeColor: accent,
           activeTrackColor: accent.withOpacity(0.3),
         ),
       ],
@@ -311,7 +311,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             border: Border.all(color: borderColor.withOpacity(0.5)),
           ),
           child: DropdownButtonFormField<String>(
-            initialValue: value,
+            value: value,
             decoration: const InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),

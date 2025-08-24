@@ -408,7 +408,7 @@ class _TableScheduleManagementScreenState extends State<TableScheduleManagementS
                 labelText: 'Number of Seats *',
                 border: OutlineInputBorder(),
               ),
-              initialValue: newTable['seats'],
+              value: newTable['seats'],
               items: [2, 4, 6, 8, 10, 12].map((seats) {
                 return DropdownMenuItem(
                   value: seats,
@@ -423,23 +423,23 @@ class _TableScheduleManagementScreenState extends State<TableScheduleManagementS
             ),
             const SizedBox(height: 16),
             DropdownButtonFormField<String>(
-              decoration: const InputDecoration(
-                labelText: 'Location *',
-                border: OutlineInputBorder(),
-              ),
-              initialValue: newTable['location'].isEmpty ? null : newTable['location'],
-              items: ['Window', 'Center', 'Bar', 'Patio', 'Private', 'Corner'].map((location) {
-                return DropdownMenuItem(
-                  value: location,
-                  child: Text(location),
-                );
-              }).toList(),
-              onChanged: (value) {
-                if (value != null) {
-                  newTable['location'] = value;
-                }
-              },
-            ),
+  decoration: const InputDecoration(
+    labelText: 'Location *',
+    border: OutlineInputBorder(),
+  ),
+  value: newTable['location'].isEmpty ? null : newTable['location'],
+  items: ['Window', 'Center', 'Bar', 'Patio', 'Private', 'Corner'].map((location) {
+    return DropdownMenuItem(
+      value: location,
+      child: Text(location),
+    );
+  }).toList(),
+  onChanged: (value) {
+    if (value != null) {
+      newTable['location'] = value;
+    }
+  },
+)
           ],
         ),
         actions: [

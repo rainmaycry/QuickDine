@@ -703,19 +703,19 @@ class _MenuManagementScreenState extends State<MenuManagementScreen> {
 
             // Category
             DropdownButtonFormField<String>(
-              decoration: const InputDecoration(
-                labelText: 'Category *',
-                border: OutlineInputBorder(),
-              ),
-              initialValue: item['category'].isEmpty ? null : item['category'],
-              items: categories.map<DropdownMenuItem<String>>((category) {
-                return DropdownMenuItem<String>(
-                  value: category['id'],
-                  child: Text(category['name']),
-                );
-              }).toList(),
-              onChanged: (value) => onUpdate('category', value ?? ''),
-            ),
+  decoration: const InputDecoration(
+    labelText: 'Category *',
+    border: OutlineInputBorder(),
+  ),
+  value: item['category'].isEmpty ? null : item['category'],
+  items: categories.map<DropdownMenuItem<String>>((category) {
+    return DropdownMenuItem<String>(
+      value: category['id'],
+      child: Text(category['name']),
+    );
+  }).toList(),
+  onChanged: (value) => onUpdate('category', value ?? ''),
+),
             const SizedBox(height: 16),
 
             // Allergens
