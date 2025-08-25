@@ -192,26 +192,26 @@ class CustomerDashboardScreen extends StatelessWidget {
               const SizedBox(height: 16),
 
               // Upcoming Reservations List
-              SizedBox(
-                height: 120,
-                child: ListView(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  scrollDirection: Axis.horizontal,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
                   children: [
-                    _buildReservationCard(
+                    _buildCompactReservationCard(
                       'Bella Vista',
-                      'Today • 7:30 PM',
-                      '2 people',
+                      'Today',
+                      '7:30 PM',
+                      '2 guests',
                       'confirmed',
                       () {
                         // Navigate to reservation details
                       },
                     ),
-                    const SizedBox(width: 12),
-                    _buildReservationCard(
+                    const SizedBox(height: 12),
+                    _buildCompactReservationCard(
                       'The Garden Cafe',
-                      'Tomorrow • 1:00 PM',
-                      '4 people',
+                      'Tomorrow',
+                      '1:00 PM',
+                      '4 guests',
                       'confirmed',
                       () {
                         // Navigate to reservation details
@@ -413,6 +413,103 @@ class CustomerDashboardScreen extends StatelessWidget {
                 color: Color(0xFF1A1A1A),
               ),
               textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCompactReservationCard(String restaurantName, String date, String time, String guests, String status, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x0A000000),
+              blurRadius: 10,
+              offset: Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            // Restaurant Icon
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: const Color(0xFFF5F5F5),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: const Icon(
+                Icons.restaurant,
+                color: Color(0xFFD4B08A),
+                size: 20,
+              ),
+            ),
+            const SizedBox(width: 12),
+            // Restaurant Info
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    restaurantName,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF1A1A1A),
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Row(
+                    children: [
+                      Text(
+                        '$date • $time',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Color(0xFF666666),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        guests,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Color(0xFF999999),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            // Status
+            Row(
+              children: [
+                Container(
+                  width: 8,
+                  height: 8,
+                  decoration: BoxDecoration(
+                    color: status == 'confirmed' ? const Color(0xFF4CAF50) : const Color(0xFFE74C3C),
+                    shape: BoxShape.circle,
+                  ),
+                ),
+                const SizedBox(width: 6),
+                Text(
+                  status,
+                  style: TextStyle(
+                    color: status == 'confirmed' ? const Color(0xFF4CAF50) : const Color(0xFFE74C3C),
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
             ),
           ],
         ),

@@ -136,7 +136,7 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 4),
                       child: Icon(
                         index < selectedRating ? Icons.star : Icons.star_border,
-                        color: const Color(0xFFFFC107),
+                        color: const Color(0xFFFFB300),
                         size: 40,
                       ),
                     ),
@@ -213,7 +213,7 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: const Color(0xFFFFF8E1),
+                color: const Color(0xFFFFF2CC),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Column(
@@ -384,7 +384,7 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
               ...List.generate(5, (index) {
                 return Icon(
                   index < rating ? Icons.star : Icons.star_border,
-                  color: const Color(0xFFFFC107),
+                  color: const Color(0xFFFFB300),
                   size: 16,
                 );
               }),
